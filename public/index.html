@@ -38,12 +38,29 @@
         <h1>Add sogn</h1>
         <form>
             <div class="mb-3">
-                <label for="name" class="form-label">name</label>
-                <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                <label for="autor" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre">
             </div>
             <div class="mb-3">
-                <label for="autor" class="form-label">Autor</label>
-                <input type="text" class="form-control" id="autor">
+                <label for="autor" class="form-label">Rut</label>
+                <input type="text" class="form-control" id="rut">
+            </div>
+
+            <div class="mb-3">
+                <label for="autor" class="form-label">Direccion</label>
+                <input type="text" class="form-control" id="direccion">
+            </div>
+            <div class="mb-3">
+                <label for="autor" class="form-label">Telefono</label>
+                <input type="text" class="form-control" id="telefono">
+            </div>
+            <div class="mb-3">
+                <label for="autor" class="form-label">Correo</label>
+                <input type="text" class="form-control" id="correo">
+            </div>
+            <div class="mb-3">
+                <label for="autor" class="form-label">Vehiculo</label>
+                <input type="text" class="form-control" id="id_vehiculo">
             </div>
             <button type="button" onclick="addSong()" class="btn btn-primary">Guardar</button>
         </form>
@@ -57,15 +74,25 @@
         crossorigin="anonymous"></script>
     <script>
         const resetFrm = () => {
-            document.getElementById('name').value = '';
-            document.getElementById('autor').value = '';
+            document.getElementById('nombre').value = '';
+            document.getElementById('rut').value = '';
+            document.getElementById('direccion').value = '';
+            document.getElementById('telefono').value = '';
+            document.getElementById('correo').value = '';
+            document.getElementById('id_vehiculo').value = '';
+
         }
         function addSong(event) {
             // event.preventDefault();  // Previene el comportamiento predeterminado del botón (envío del formulario)
 
             const songData = {
-                title: document.getElementById('name').value,
-                artist: document.getElementById('autor').value
+                nombre: document.getElementById('nombre').value,
+                rut: document.getElementById('rut').value,
+                direccion: document.getElementById('direccion').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value,
+                id_vehiculo: document.getElementById('id_vehiculo').value,
+
             };
 
             fetch('/canciones', {
@@ -79,7 +106,7 @@
                 .then(data => {
                     console.log('Canción agregada:', data);
                     resetFrm();
-                    alert('Canción agregada');
+                    alert('usuario agregado');
                     loadSongs();
                 })
                 .catch((error) => {

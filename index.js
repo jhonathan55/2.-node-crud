@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'jhon'
+    database: 'integracion'
 });
 
 connection.connect((err) => {
@@ -35,8 +35,8 @@ app.get('/canciones', (req, res) => {
 app.post('/canciones', (req, res) => {
     // No necesitas incluir el ID aquí porque será autoincrementado por MySQL
     const newSong = req.body;
-
-    connection.query('INSERT INTO canciones SET ?', newSong, (err, result) => {
+    console.log(newSong);
+    connection.query('INSERT INTO cliente SET ?', newSong, (err, result) => {
         if (err) throw err;
         // Utiliza el insertId proporcionado por MySQL para obtener el ID autoincrementado
         newSong.id = result.insertId;
@@ -61,36 +61,36 @@ app.delete('/canciones/:id', (req, res) => {
     });
 });
 //archivo json
-app.get('/canciones', (req, res) => {
-    const data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
-    res.json(data);
-});
+// app.get('/canciones', (req, res) => {
+//     const data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
+//     res.json(data);
+// });
 
-app.post('/canciones', (req, res) => {
-    let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
-    // Asignamos un ID a la nueva canción usando el timestamp actual
-    req.body.id = Date.now().toString();
-    data.push(req.body);
-    fs.writeFileSync('repertorio.json', JSON.stringify(data));
-    res.json(req.body);
-});
+// app.post('/canciones', (req, res) => {
+//     let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
+//     // Asignamos un ID a la nueva canción usando el timestamp actual
+//     req.body.id = Date.now().toString();
+//     data.push(req.body);
+//     fs.writeFileSync('repertorio.json', JSON.stringify(data));
+//     res.json(req.body);
+// });
 
-app.put('/canciones/:id', (req, res) => {
-    let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
-    const id = req.params.id;
-    const index = data.findIndex(song => song.id == id);
-    if (index === -1) return res.status(404).send('Canción no encontrada');
-    data[index] = req.body;
-    fs.writeFileSync('repertorio.json', JSON.stringify(data));
-    res.json(req.body);
-});
+// app.put('/canciones/:id', (req, res) => {
+//     let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
+//     const id = req.params.id;
+//     const index = data.findIndex(song => song.id == id);
+//     if (index === -1) return res.status(404).send('Canción no encontrada');
+//     data[index] = req.body;
+//     fs.writeFileSync('repertorio.json', JSON.stringify(data));
+//     res.json(req.body);
+// });
 
-app.delete('/canciones/:id', (req, res) => {
-    let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
-    const id = req.params.id;
-    const index = data.findIndex(song => song.id == id);
-    if (index === -1) return res.status(404).send('Canción no encontrada');
-    const removed = data.splice(index, 1);
-    fs.writeFileSync('repertorio.json', JSON.stringify(data));
-    res.json(removed[0]);
-});
+// app.delete('/canciones/:id', (req, res) => {
+//     let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
+//     const id = req.params.id;
+//     const index = data.findIndex(song => song.id == id);
+//     if (index === -1) return res.status(404).send('Canción no encontrada');
+//     const removed = data.splice(index, 1);
+//     fs.writeFileSync('repertorio.json', JSON.stringify(data));
+//     res.json(removed[0]);
+// });
